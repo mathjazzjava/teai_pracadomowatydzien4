@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Car</title>
+</head>
+<body>
+<h1>Witaj!</h1>
+<p>Oto nasze samochody: </p>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Marka</td>
+        <td>Model</td>
+        <td>Kolor</td>
+    </tr>
+    <tr th:each="car: ${cars}">
+        <td th:text="${car.getId()}"></td>
+        <td th:text="${car.getMark()}"></td>
+        <td th:text="${car.getModel()}"></td>
+        <td th:text="${car.getColor()}"></td>
+        <h2 th:text="${message}"></h2>
+    </tr>
+</table>
+
+<table>
+    <tr style="vertical-align: top">
+        <td>
+        <p>Pokaż samochód o danym id: </p>
+        <form th:action="@{/show-car-id}" th:object="${newCar}" method="post">Id:
+            <select th:field="*{id}">
+                <option th:each="car: ${cars}" th:value="${car.getId()}" th:text="${car.getId()}"></option>
+            </select>
+            <p><input type="submit" value="Pokaż samochód"></p>
+        </form>
+        <p>Twój wybrany samochód to: </p>
+        <p>
+            <span th:text="${carById.getId() != 0} ? ${carById.getId()} : ''"> </span>
+            <span th:text="${carById.getMark() != null} ? ${carById.getMark()} : ''"> </span>
+            <span th:text="${carById.getModel() != null} ? ${carById.getModel()} : ''"> </span>
+            <span th:text="${carById.getColor() != null} ? ${carById.getColor()} : ''"> </span>
+        </p>
+        </td>
+        <td>
+        <p>Dodaj samochód do listy: </p>
+        <form th:action="@{/add-car}" th:object="${newCar}" method="post">
+            <p>Mark <input type="text" th:field="*{mark}"/></p>
+            <p>Model <input type="text" th:field="*{model}"/></p>
+            <p>Color <input type="text" th:field="*{color}"/></p>
+            <p><input type="submit" value="Dodaj samochód"></p>
+        </form>
+        </td>
+        <td>
+        <p>Modyfikuj samochód o danym id: </p>
+        <form th:action="@{/modify-car}" th:object="${newCar}" method="post">Id:
+            <select th:field="*{id}">
+                <option th:each="car: ${cars}" th:value="${car.getId()}" th:text="${car.getId()}"></option>
+            </select>
+            <p>Mark <input type="text" th:field="*{mark}"/></p>
+            <p>Model <input type="text" th:field="*{model}"/></p>
+            <p>Color <input type="text" th:field="*{color}"/></p>
+            <p><input type="submit" value="Modyfikuj samochód"/></p>
+        </form>
+            <p>Zmodyfikowano samochód o id:  </p>
+            <p th:text="${modId}"></p>
+        </td>
+        <td>
+        <p>Modyfikuj elementy samochodu o id: </p>
+        <form th:action="@{/modify-car-elem}" th:object="${newCar}" method="post">Id:
+            <select name="id" th:field="*{id}">
+                <option th:each="car: ${cars}" th:value="${car.getId()}" th:text="${car.getId()}"></option>
+            </select>
+            <p>Mark <input type="text" th:field="*{mark}"/></p>
+            <p>Model <input type="text" th:field="*{model}"/></p>
+            <p>Color <input type="text" th:field="*{color}"/></p>
+            <p><input type="submit" value="Modyfikuj elementy samochodu"/></p>
+        </form>
+            <p>Zmodyfikowano samochód o id:  </p>
+            <p th:text="${modId}"></p>
+        </td>
+        <td>
+        <p>Usuń samochód z listy: </p>
+        <form th:action="@{/delete-car}"  th:object="${newCar}" method="post">
+            <select th:field="*{id}">
+                <option th:each="car: ${cars}" th:value="${car.getId()}" th:text="${car.getId()}"></option>
+            </select>
+            <p><input type="submit" value="Usuń samochód"/></p>
+        </form>
+
+        <p>Usunięto samochód o id:  </p>
+        <p th:text="${delId}"></p>
+        </td>
+
+</table>
+</body>
+</html>
